@@ -1,0 +1,93 @@
+
+05.01.2025
+- used GEO2R with standard parameters to analyse and download the following GSEs:
+	- GSE68801: AA
+	- GSE137268: Asthma
+	- GSE130499: Asthma
+	=> resulting in the three tsv files in the Material folder
+- used the R-script to sort by padj. and only keep entries with padj <0.05 and |logFC|>= 0.58
+	=> resulting excel files in the Results folder
+- used the gene symbols as inputs in venny
+
+06.01.2025
+- accessed GEO2R using a VPN and a private tab
+- For GSE68801 the case control are: 23/36 if for the case the ones with AU (Alopecia universalis)
+- As for the R code:
+# group membership for all samples
+gsms <- paste0("XXXXXX1X0000XXXXXX11X110000XXXXXXX10000XXXXXXX1100",
+        "00XXXXXXXX1110000XXXXXXX11X1000XXXXXXX111100000000",
+        "XXXXXXXX111X110000XXX0")
+sml <- strsplit(gsms, split="")[[1]]
+
+# filter out excluded samples (marked as "X")
+sel <- which(sml != "X")
+sml <- sml[sel]
+gset <- gset[ ,sel]
+
+=> now there finally are a lot of results that have an adj.p.val of <0.05
+
+- For GSE137268 the case/control are: 12/15 with the case ones being severe asthma  
+- For GSE130499 the case/control are: 44/38 with the case ones being severe asthma  
+- resulting venny in Results/select samples
+
+08.01.2025
+- instead of for examples comparing the control group with all asthma groups here I compared the control with the subgroups of the disease
+- for that i used GEO2R, selected control and only for example severe asthma (SA) and ran it
+- I downloaded the full tables and filtered the data with adj.p.val <=0.05 and |logFC| >=0.58
+- the results are in the results.xlsx file in the results folder
+
+18.01.2025
+- GSE68801 A.A. transcriptome data set GEO2R analysis 
+	- only discovery data
+	- case: AAP (A.A. patchy), AT (A. totalis), AU (A. universalis)
+	- only lesional AAP
+	- only lesional AU (which they all are)
+	- no AAP.T (transient patchy type disease)
+	- control: All normal spamples
+   => case:control = 37:23 with 62 unused samples
+   => GSE68801.18.01.25.tsv
+- GSE130499 Asthma transcriptome data set has three types of data: SA, M-MA, NC
+	- For GSE130499 the case/control are: 44/38 with the case ones being severe asthma (SA)
+		=> GSE130499_SA.tsv
+	- For GSE130499 the case/control are: 72/38 with the case ones being mild-moderate asthma (M-MA)
+		=> GSE130499_M-MA.tsv
+	- For GSE130499 the case/control are: with the case ones being M-MA AND SA 
+		=> GSE130499.top.table.tsv
+- filtered all 4 tables with adj.p.val <=0.05 and |logFC| >=0.58
+- Venny using those 4 filtered tables
+	=> Venny_18.01.25.png in the results folder
+=> RESULTS
+- 1 is present in all 4: IFRD1
+- 3 are present in all 3 asthma: CELA2A, TFF3, CELA2B
+- 5 are present in SA + M-MA: ZNF331, CREM, ERRFI1, OSM, CXADR
+- 2 are present in M-MA + "Both": SCGB1A1, SCGB3A1
+
+14.02.2025
+GEO2R
+- GSE245608: skin tape stips: 
+This data was sequenced with RNA-seq and not array so GEO2R is not the best choice for analysing but rather DE-seq2.
+There is an in-beta version that can analyse RNA-seq data in GEO2R, which i am gonna use now and then try to do this DEG Analysis with DE-seq2 afterwards to compare the results.
+	- control: 12
+	- case: 11 samples MAA = moderate allergic asthma
+	=> GSE245608.MAA.tsv
+
+	- control: 12
+	- case: 7 samlples SAA = severe allergic asthma
+	=> GSE245608.SAA.tsv
+
+	- control: 12
+	- case: 18 samples SAA + MAA
+	=> GSE245608.All.tsv
+
+19.02.2025
+GSE161245 is a RNA-seq dataset as well as GSE245608 with the difference being that GEO2R works with the latter but not the first for some reason.
+	=> DESeq2 will be needed
+
+- filtered DEGs of GSE245608 files with padj <=0.05 and |log2FoldChange| >=0.58
+	- yes, the metrics are called different when analysed with the beta GEO2R tool for RNA-seq data 
+
+25.02.2025
+- using a DESeq script for DEG analysis of RNA-seq transciptome data
+	=> R/DESeq2/DESeq2-pipeline.R
+- GSE245608 is a RNA-seq dataset that I was previously able to analyse using GEO2R. Lets compare the results of my and the GEO2R pipeline
+	- 
