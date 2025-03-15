@@ -1,12 +1,14 @@
 # This script is used to filter out and keep only DEGs that have an
 # adj.p.val <=0.05 and |logFC| >=0.58
 
-# Versions: R = 4.2.2, dplyr = , openxlsx = 
+# Versions: R = 4.2.2, dplyr = , openxlsx = 4.2.7.1
 
 ###############################################################################
 
-setwd("C:/Users/Sebi/OneDrive - TH Bingen/Praktikum Humangenetik Bonn/DEG Analysis/")
-setwd("C:/Users/sebas/OneDrive - TH Bingen/Praktikum Humangenetik Bonn/DEG Analysis/")
+# setting the working directory to make sure the paths work as intended 
+library(rstudioapi)
+script_dir <- dirname(getActiveDocumentContext()$path)
+setwd(paste0(script_dir, "/../"))
 getwd()
 
 # this is the path from the wd to the GSE folder 
